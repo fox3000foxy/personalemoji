@@ -20,7 +20,7 @@ app.get('/', async ({ query }, response) => {
 					client_secret: clientSecret,
 					code,
 					grant_type: 'authorization_code',
-					redirect_uri: `https://personalemoji.herokuapp.com`,
+					redirect_uri: `https://personalemoji.fox3000.repl.co`,
 					scope: 'identify',
 				}),
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -70,7 +70,7 @@ app.post('/upload', function(req, res) {
 	if (!fs.existsSync(dir)){fs.mkdirSync(dir);}
 	let uploadEmojis, uploadPath;
   uploadEmojis = req.files.uploadEmojis;
-  uploadPath = dir + uploadEmojis.name;
+  uploadPath = dir + uploadEmojis.name.split(".")[0];
   uploadEmojis.mv(uploadPath, function(err) {  res.redirect("main.html")});
 });
 
@@ -83,9 +83,16 @@ client.on("message",async (msg)=>{
 	if(msg.author.bot==true) return
 	if (msg.content.indexOf(";")!=-1) emojiName = msg.content.split(";")[1]
 	else return
-	const path = __dirname+'/public/emojis/'+msg.author.id+'/'+emojiName+'.png'
-	if (fs.existsSync(path)) {
-		//Replace message
+	let path = __dirname+'/public/emojis/'+msg.author.id+'/'+emojiName
+	if (fs.existsSync(path)) {replaceMessage(msg,path)}
+})
+
+
+client.on('ready',()=>{console.log("Ready !")})
+client.login("ODQ0OTM2OTg2MTE1ODMzODU4.YKZq4w"+".NAcFqDXCW9WIS9jcaY_5wh02eO4")
+
+function replaceMessage(msg,path){
+  		//Replace message
 		msg.delete()
 		channel = msg.channel
 		emoji = msg.guild.emojis.create(path, emojiName).then(async emote=>{
@@ -94,9 +101,7 @@ client.on("message",async (msg)=>{
 		const webhooks = await channel.fetchWebhooks();
 		const webhook = webhooks.first();
 		if(webhook==undefined){
-			channel.createWebhook('Webhook', {
-				avatar: 'https://i.imgur.com/wSTFkRM.png',
-			})
+			channel.createWebhook('Webhook', {avatar: 'https://i.imgur.com/wSTFkRM.png'})
 			const webhook = webhooks.first();
 		}
 		await webhook.send(message, {
@@ -106,9 +111,4 @@ client.on("message",async (msg)=>{
 		
 		await emote.delete()
 		})
-	}
-})
-client.on('ready',()=>{console.log("Ready !")})
-client.login("ODQ0OTM2OTg2MTE1ODMzODU4.YKZq4w.r_eSqaB-zUNoFZdsGlfsnlSb0Aw")
-
-
+}
