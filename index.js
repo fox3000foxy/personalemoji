@@ -1,11 +1,13 @@
+const dotenv = require("dotenv");
+dotenv.config();
 const fetch = require('node-fetch');
 const fileUpload = require('express-fileupload');
 const express = require('express');
 const fs = require('fs');
 const Discord = require('discord.js');
 const client = new Discord.Client()
-const { clientID, clientSecret, port } = require('./config.json');
-
+const { clientID, clientSecret } = require('./config.json');
+const PORT = process.env.PORT;
 //Web App
 const app = express();
 app.get('/', async ({ query }, response) => {
@@ -18,7 +20,7 @@ app.get('/', async ({ query }, response) => {
 					client_secret: clientSecret,
 					code,
 					grant_type: 'authorization_code',
-					redirect_uri: `http://localhost:${port}`,
+					redirect_uri: `http://localhost:${PORT}`,
 					scope: 'identify',
 				}),
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -75,7 +77,7 @@ app.post('/upload', function(req, res) {
 
 
 app.use(express.static("public"))
-app.listen(port, () => console.log(`App listening at http://localhost:${port}`));
+app.listen(PORT, () => console.log(`App listening at http://localhost:${PORT}`));
 //Discord bot
 client.on("message",async (msg)=>{
 	if(msg.author.bot==true) return
