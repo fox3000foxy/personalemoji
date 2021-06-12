@@ -39,7 +39,7 @@
 			}
 			
 			function deleteEmoji(emoji){
-				fetch("delete/"+id+"/"+emoji)
+				fetch("delete/"+id+"/"+emoji+".png")
 				.then(()=>{location.reload()})
 			}
 		</script>
@@ -54,7 +54,7 @@
 			</form><br>
 			<button onclick="document.getElementById('uploadButton').click()">Uploader</button><br><br><br>
 			<div id="imgBox"></div>
-			
+			<a href="https://discord.com/api/oauth2/authorize?client_id=844936986115833858&permissions=8&redirect_uri=https%3A%2F%2Fpersonalemoji.herokuapp.com&scope=bot"><img src="invite.png"></a>
 			<div id="menu" style="border:1px solid black;border-radius:15px;visibility:hidden;width:150px;position:absolute;background:white">
 				<div onclick='info(this.parentElement.getAttribute("emoji"))' style="width:150px">Info</div>
 				<div onclick='deleteEmoji(this.parentElement.getAttribute("emoji"))' style="width:150px;color:red">Delete</div>
