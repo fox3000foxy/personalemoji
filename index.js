@@ -33,7 +33,7 @@ app.get('/', async ({ query }, response) => {
 				fs.writeFileSync("clients/"+clientAuth.id+".auth",JSON.stringify(clientAuth))
 				}	
 	}
-	return response.sendFile(__dirname+'/index.html', { root: '.' });
+	return response.sendFile('/index.html', { root: '.' });
 });
 
 app.use('/login',(req,res)=>{
