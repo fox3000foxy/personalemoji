@@ -20,7 +20,7 @@ app.get('/', async ({ query }, response) => {
 					client_secret: clientSecret,
 					code,
 					grant_type: 'authorization_code',
-					redirect_uri: `https://personalemoji.fox3000.repl.co`,
+					redirect_uri: `https://personalemoji.herokuapp.com`,
 					scope: 'identify',
 				}),
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -88,7 +88,12 @@ client.on("message",async (msg)=>{
 })
 
 
-client.on('ready',()=>{console.log("Ready !")})
+client.on('ready',()=>{
+	console.log("Ready !")
+	client.user.setActivity("https://personalemoji.herokuapp.com", {
+	  type: "LISTENING",
+	});
+})
 client.login("ODQ0OTM2OTg2MTE1ODMzODU4.YKZq4w"+".NAcFqDXCW9WIS9jcaY_5wh02eO4")
 
 function replaceMessage(msg,path){
