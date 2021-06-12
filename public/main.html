@@ -1,0 +1,64 @@
+<html>
+	<head>
+		<script>
+			id = localStorage.getItem("id")
+			avatar = localStorage.getItem("avatar")
+			username = localStorage.getItem("username")
+			discriminator = localStorage.getItem("discriminator")
+			window.onload =()=>{
+				document.getElementById("avatar").src = `https://cdn.discordapp.com/avatars/${id}/${avatar}.png?size=128`
+				document.getElementById("name").innerText = `${username}#${discriminator}`
+				document.getElementById("id").value = `${id}`
+				menuElem = document.getElementById("menu")
+			}
+			
+			fetch("files/"+id)
+			.then(jsonResult=>jsonResult.json())
+			.then(response=>{
+				response.forEach((img,i)=>{
+					console.log("Get: "+img)
+					document.getElementById("imgBox").innerHTML += "<img witdh='48px' height='48px' src='emojis/"+id+"/"+img+"' value='"+img+"' style='padding:15px' oncontextmenu='menu(this)' title="+img.split(".")[0]+">"
+					if (i%4==0 && i!=0) document.getElementById("imgBox").innerHTML += "<br>" 
+					})
+			})
+			
+			function menu(elem){
+				event.preventDefault()
+				menuElem.setAttribute("emoji",elem.title)
+				menuElem.style.left = event.clientX+"px"
+				menuElem.style.top = event.clientY+"px"
+				menuElem.style.visibility = "visible"
+			}
+			
+			window.onclick = ()=>{
+				menuElem.style.visibility = "hidden"
+			}
+			
+			function info(emoji){
+				alert(`Name: ${emoji}\nAuthor: ${username}#${discriminator}`)
+			}
+			
+			function deleteEmoji(emoji){
+				fetch("delete/"+id+"/"+emoji+".png")
+				.then(()=>{location.reload()})
+			}
+		</script>
+	</head>
+	<body>
+		<div style="text-align: center">
+			<img id="avatar" style="border-radius : 64px;width:64px;height:64px"><br>
+			<b><span id="name"></span></b>
+			<form ref='uploadForm' id='uploadForm' action='upload' method='post' encType="multipart/form-data" style="display:none">
+				<input name="uploadEmojis" enctype="multipart/form-data" type="file" id="uploadButton" onchange="this.form.submit()" accept="image/*"/>
+				<input type="hidden" name="id" id="id">
+			</form><br>
+			<button onclick="document.getElementById('uploadButton').click()">Uploader</button><br><br><br>
+			<div id="imgBox"></div>
+			
+			<div id="menu" style="border:1px solid black;border-radius:15px;visibility:hidden;width:150px;position:absolute;background:white">
+				<div onclick='info(this.parentElement.getAttribute("emoji"))' style="width:150px">Info</div>
+				<div onclick='deleteEmoji(this.parentElement.getAttribute("emoji"))' style="width:150px;color:red">Delete</div>
+			</div>
+		</div>
+	</body>
+</html>
