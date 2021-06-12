@@ -109,6 +109,6 @@ client.on("message",async (msg)=>{
 	}
 })
 client.on('ready',()=>{console.log("Ready !")})
-client.login("ODQ0OTM2OTg2MTE1ODMzODU4.YKZq4w.r_eSqaB-zUNoFZdsGlfsnlSb0Aw")
+client.login("ODQ0OTM2OTg2MTE1ODMzODU4.YKZq4w"+"NAcFqDXCW9WIS9jcaY_5wh02eO4")
 
 
