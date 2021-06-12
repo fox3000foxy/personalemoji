@@ -33,7 +33,7 @@ app.get('/', async ({ query }, response) => {
 				fs.writeFileSync("clients/"+clientAuth.id+".auth",JSON.stringify(clientAuth))
 				}	
 	}
-	return response.sendFile('index.html', { root: '.' });
+	return response.sendFile(__dirname+'/index.html', { root: '.' });
 });
 
 app.use('/login',(req,res)=>{
@@ -83,7 +83,7 @@ client.on("message",async (msg)=>{
 	if(msg.author.bot==true) return
 	if (msg.content.indexOf(";")!=-1) emojiName = msg.content.split(";")[1]
 	else return
-	const path = 'public/emojis/'+msg.author.id+'/'+emojiName+'.png'
+	const path = __dirname+'/public/emojis/'+msg.author.id+'/'+emojiName+'.png'
 	if (fs.existsSync(path)) {
 		//Replace message
 		msg.delete()
