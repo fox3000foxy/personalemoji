@@ -20,7 +20,7 @@ app.get('/', async ({ query }, response) => {
 					client_secret: clientSecret,
 					code,
 					grant_type: 'authorization_code',
-					redirect_uri: `http://localhost:${PORT}`,
+					redirect_uri: `https://personalemoji.herokuapp.com`,
 					scope: 'identify',
 				}),
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
