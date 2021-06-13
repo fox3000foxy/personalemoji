@@ -102,7 +102,7 @@ function replaceMessage(msg,path){
 		channel = msg.channel
 		emoji = msg.guild.emojis.create(path, emojiName).then(async emote=>{
 		message = msg.content.split(";")[0]+"<:"+ emote.name + ":"+ emote.id+">"+msg.content.split(";")[2]
-		
+		console.log(message)
 		const webhooks = await channel.fetchWebhooks();
 		const webhook = webhooks.first();
 		if(webhook==undefined){
